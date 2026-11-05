@@ -30,6 +30,7 @@ app.get("/api/test-db", async (req, res) => {
         });
     }
 });
+//ok
 app.get("/api/cours", async (req, res) => {
     try {
         const [cours] = await connexion.query(
