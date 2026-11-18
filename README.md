@@ -1,1 +1,1 @@
-# tpdexbd2
+# Dex TP2 ## Installation 1. Importer init.sql dans phpMyAdmin. 2. Démarrer Apache et MySQL avec XAMPP. 3. Dans le dossier api : npm install node app.js 4. Ouvrir : http://localhost/tpdexbd2/site/ ## Comptes de démonstration Identifiant : prof Mot de passe : dex2026 Identifiant : prof2 Mot de passe : web2026 ## Fonctionnalités - API Express - MySQL - Liste des cours - Liste des travaux - Détail d'un travail - Affichage des créneaux - Stockage local des informations étudiant
