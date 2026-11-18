@@ -14,23 +14,100 @@ let html = `
 
     <p>${travail.description}</p>
 
-    <h2>Créneaux disponibles</h2>
+    <h2>Identification</h2>
 
-    <ul>
+    <p>
+        Matricule
+    </p>
+
+    <input
+        id="matricule">
+
+    <p>
+        Nom
+    </p>
+
+    <input
+        id="nom">
+
+    <h2>
+        Créneaux disponibles
+    </h2>
+
+    <form>
+
 `;
 
 for (const creneau of travail.creneaux)
 {
     html += `
-        <li>
-            ${creneau.debut}
-            -
-            ${creneau.fin}
-        </li>
+        <div>
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    value="${creneau.id}">
+
+                ${creneau.debut}
+                -
+                ${creneau.fin}
+
+            </label>
+
+        </div>
     `;
 }
 
-html += "</ul>";
+html += `
+        <br>
+
+        <button
+            id="btnSauver"
+            type="button">
+
+            Enregistrer
+
+        </button>
+
+    </form>
+`;
 
 document.querySelector("#app").innerHTML =
     html;
+
+document
+    .querySelector("#btnSauver")
+    .addEventListener(
+        "click",
+        () =>
+        {
+            localStorage.setItem(
+                "matricule",
+                document.querySelector(
+                    "#matricule"
+                ).value
+            );
+
+            localStorage.setItem(
+                "nom",
+                document.querySelector(
+                    "#nom"
+                ).value
+            );
+
+            alert(
+                "Informations sauvegardées"
+            );
+        }
+    );
+
+document.querySelector("#matricule").value =
+    localStorage.getItem(
+        "matricule"
+    ) ?? "";
+
+document.querySelector("#nom").value =
+    localStorage.getItem(
+        "nom"
+    ) ?? "";
