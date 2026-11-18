@@ -11,6 +11,42 @@ app.get("/api/cours", async (req, res) => {
         );
 
         res.json(cours);
+    }
+    catch (erreur) {
+        console.error(erreur);
+
+        res.status(500).json({
+            erreurs: ["Erreur serveur"]
+        });
+    }
+});
+
+app.get("/api/travaux", async (req, res) => {
+    try {
+        const [travaux] = await connexion.query(`
+            SELECT *
+            FROM travaux
+            WHERE ouvert = 1
+        `);
+
+        res.json(travaux);
+    }
+    catch (erreur) {
+        console.error(erreur);
+
+        res.status(500).json({
+            erreurs: ["Erreur serveur"]
+        });
+    }
+});
+
+app.get("/api/cours", async (req, res) => {
+    try {
+        const [cours] = await connexion.query(
+            "SELECT * FROM cours"
+        );
+
+        res.json(cours);
     } catch (erreur) {
         console.error(erreur);
 
