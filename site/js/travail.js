@@ -1,4 +1,8 @@
-import { obtenirTravail } from "./api.js";
+import {
+    obtenirTravail,
+    enregistrerDisponibilites
+}
+from "./api.js";
 
 const travailId =
     document
@@ -7,25 +11,23 @@ const travailId =
         .travailId;
 
 const travail =
-    await obtenirTravail(travailId);
+    await obtenirTravail(
+        travailId
+    );
 
 let html = `
     <h1>${travail.titre}</h1>
 
     <p>${travail.description}</p>
 
-    <h2>Identification</h2>
+    <h2>Étudiant</h2>
 
-    <p>
-        Matricule
-    </p>
+    <p>Matricule</p>
 
     <input
         id="matricule">
 
-    <p>
-        Nom
-    </p>
+    <p>Nom</p>
 
     <input
         id="nom">
@@ -33,9 +35,6 @@ let html = `
     <h2>
         Créneaux disponibles
     </h2>
-
-    <form>
-
 `;
 
 for (const creneau of travail.creneaux)
@@ -60,47 +59,18 @@ for (const creneau of travail.creneaux)
 }
 
 html += `
-        <br>
+    <br>
 
-        <button
-            id="btnSauver"
-            type="button">
+    <button
+        id="sauver">
 
-            Enregistrer
+        Enregistrer
 
-        </button>
-
-    </form>
+    </button>
 `;
 
 document.querySelector("#app").innerHTML =
     html;
-
-document
-    .querySelector("#btnSauver")
-    .addEventListener(
-        "click",
-        () =>
-        {
-            localStorage.setItem(
-                "matricule",
-                document.querySelector(
-                    "#matricule"
-                ).value
-            );
-
-            localStorage.setItem(
-                "nom",
-                document.querySelector(
-                    "#nom"
-                ).value
-            );
-
-            alert(
-                "Informations sauvegardées"
-            );
-        }
-    );
 
 document.querySelector("#matricule").value =
     localStorage.getItem(
@@ -111,3 +81,52 @@ document.querySelector("#nom").value =
     localStorage.getItem(
         "nom"
     ) ?? "";
+
+document
+    .querySelector("#sauver")
+    .addEventListener(
+        "click",
+        async () =>
+        {
+            const matricule =
+                document.querySelector(
+                    "#matricule"
+                ).value;
+
+            const nom =
+                document.querySelector(
+                    "#nom"
+                ).value;
+
+            const creneaux =
+                [
+                    ...document.querySelectorAll(
+                        "input[type='checkbox']:checked"
+                    )
+                ]
+                .map(
+                    checkbox => checkbox.value
+                );
+
+            localStorage.setItem(
+                "matricule",
+                matricule
+            );
+
+            localStorage.setItem(
+                "nom",
+                nom
+            );
+
+            await enregistrerDisponibilites(
+                travailId,
+                matricule,
+                nom,
+                creneaux
+            );
+
+            alert(
+                "Disponibilités enregistrées"
+            );
+        }
+    );

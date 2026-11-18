@@ -15,3 +15,27 @@ export async function obtenirTravail(id) {
 
     return await reponse.json();
 }
+
+export async function enregistrerDisponibilites(
+    travailId,
+    matricule,
+    nom,
+    creneaux
+) {
+
+    await fetch(
+        `${API_URL}/travaux/${travailId}/disponibilites/${matricule}`,
+        {
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                nom,
+                creneaux
+            })
+        }
+    );
+}
